@@ -1,0 +1,212 @@
+<script type="text/javascript" language="JavaScript">
+<!--
+
+	function toggleDisplay(id)
+	{
+			var a = document.getElementById('link-' + id);
+			var d = document.getElementById('message-' + id);
+			if (d.style.display == 'none')
+			{
+				a.innerHTML = '<?php echo __('verbergen', 'simplecontact') ?>';
+				d.style.display = 'block';
+			}
+			else
+			{
+				a.innerHTML = '<?php echo __('anzeigen', 'simplecontact') ?>';
+				d.style.display = 'none';
+			}
+	}
+
+//-->
+</script>
+
+<div class="wrap">
+	<div class="icon32" style="background: url('<?php echo $this->images ?>/simplecontact-settings.png') no-repeat;"><br /></div>
+	<h2><?php _e('simpleContact Kontaktformular', 'simplecontact') ?></h2>
+	<?php if (isset($message)) : ?>
+		<?php if ($message == 'settings') : ?>
+			<div id="message" class="updated fade">
+				<p><?php _e('Die Einstellungen f&uuml;r simpleContact wurden gespeichert.', 'simplecontact') ?></p>
+			</div>
+		<?php elseif ($message == 'newsubject') : ?>
+			<div id="message" class="updated fade">
+				<p><?php _e('Der Betreff wurde erfolgreich angelegt.', 'simplecontact') ?></p>
+			</div>
+		<?php elseif ($message == 'error newsubject') : ?>
+			<div id="notice" class="error fade">
+				<p><?php _e('Bitte f&uuml;llen Sie das Formular f&uuml;r den Betreff korrekt aus.', 'simplecontact') ?></p>
+			</div>
+		<?php elseif ($message == 'status') : ?>
+			<div id="message" class="updated fade">
+				<p><?php printf(__('Der Betreff #%s f&uuml;r das Kontaktformular wurde %s.', 'simplecontact'), $status, isset($_GET['activate']) ? __('aktiviert', 'simplecontact') : __('deaktiviert', 'simplecontact')) ?></p>
+			</div>
+		<?php elseif ($message == 'delete') : ?>
+			<div id="message" class="updated fade">
+				<p><?php printf(__('Der Betreff #%s f&uuml;r das Kontaktformular wurde gel&ouml;scht.', 'simplecontact'), $delete) ?></p>
+			</div>
+		<?php elseif ($message == 'message delete') : ?>
+			<div id="message" class="updated fade">
+				<p><?php printf(__('Die Nachricht von %s (%s) wurde gel&ouml;scht.', 'simplecontact'), $name, date('d.m.Y', $date)) ?></p>
+			</div>
+		<?php elseif ($message == 'order') : ?>
+			<div id="message" class="updated fade">
+				<p><?php _e('Die Reihenfolge wurde erfolgreich aktualisiert.', 'simplecontact') ?></p>
+			</div>
+		<?php elseif ($message == 'error order') : ?>
+			<div id="notice" class="error fade">
+				<p><?php printf(__('Bei den Datens&auml;tzen f&uuml;r die Betreffs %s trat ein Fehler auf.', 'simplecontact'), implode(',', $errors)) ?></p>
+			</div>
+		<?php else : ?>
+			<div id="notice" class="error fade">
+				<p><?php _e('Es trat ein Fehler auf.', 'simplecontact') ?></p>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+	<div class="metabox-holder">
+		<div class="has-sidebar">
+			<div class="meta-box-sortables ui-sortable" style="position: relative;">
+				<div class="postbox">
+					<h3><?php _e('Spenden', 'simplecontact') ?></h3>
+					<div class="inside">
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+							<p style="float:left; width:20%; text-align:center;">
+								<input name="cmd" value="_donations" type="hidden">
+								<input name="business" value="united20@united20.de" type="hidden">
+								<input name="item_name" value="simpleContakt - Kommunikation einfach erleben" type="hidden">
+								<input name="no_shipping" value="0" type="hidden">
+								<input name="no_note" value="1" type="hidden">
+								<input name="currency_code" value="EUR" type="hidden">
+								<input name="tax" value="0" type="hidden">
+								<input name="lc" value="DE" type="hidden">
+								<input name="bn" value="PP-DonationsBF" type="hidden">
+								<?php if (@file_get_contents('http://www.paypal.com/de_DE/DE/i/logo/paypal_logo.gif')) : ?>
+									<input alt="<?php _e('Jetzt einfach, schnell und sicher online bezahlen mit PayPal.', 'simplecontact') ?>" name="submit" src="https://www.paypal.com/de_DE/DE/i/btn/x-click-butcc-donate.gif" type="image" />
+								<?php else : ?>
+									<input name="submit" class="button-primary" type="submit" style="margin-top:24px;" value="<?php _e('Jetzt spenden', 'simplecontact') ?>" />
+								<?php endif; ?>
+								<img src="https://www.paypal.com/de_DE/i/scr/pixel.gif" alt="" width="1" border="0" height="1"><br />
+							</p>
+						</form>
+						<p style="float:left; width:75%; text-align:justify;"><?php _e('Sie finden simpleContact super gelungen und m&ouml;chten helfen weitere Features und Funktionen f&uuml;r dieses Wordpress Plugin umzusetzen. Dann sagen Sie uns ihre W&uuml;nsche und Vorschl&auml;ge f&uuml;r simpleContact. Und spenden Sie uns den Betrag, wie Sie meinen, was simpleContact Ihnen wert ist!', 'simplecontact'); ?></p>
+						<p style="clear:both;"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br style="clear:both;" />
+	<form method="post">
+		<h3><?php echo _e('Einstellungen', 'simplecontact') ?></h3>
+		<p><?php _e('Allgemeine Einstellungen des Kontaktformulars.', 'simplecontact') ?></p>
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th scope="row"><label for="simplecontact_captcha"><?php _e('Captcha verwenden:', 'simplecontact') ?></label></th>
+					<td>
+						<input type="checkbox" name="simplecontact[simplecontact_captcha]" id="simplecontact_captcha"<?php if ($data['captcha'] && $gd) : ?> checked<?php endif; ?><?php if (!$gd) : ?> disabled="disabled"<?php endif; ?> />
+						<div style="text-align:justify;">
+							<?php _e('Soll in dem Kontaktformular eine Captcha (graphischer Code) zum Schutz vor SPAM angezeigt werden.', 'simplecontact'); ?>
+							<?php if (!$gd) : ?><br /><span style="color: #f00; font-style:italic;"><?php _e('Es ist keine GD Libary auf ihrem Server installiert. Installieren Sie die GD Libary f&uuml;r PHP, um diese Funktion nutzen zu k&ouml;nnen.', 'simplecontact') ?></span><?php endif; ?>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="simplecontact_email"><?php _e('E-Mail Benachrichtigung:', 'simplecontact') ?></label></th>
+					<td>
+						<input type="checkbox" name="simplecontact[simplecontact_email]" id="simplecontact_email"<?php if ($data['email']) : ?> checked<?php endif; ?> />
+						<div style="text-align:justify;">
+							<?php _e('Soll bei einer neuen Kontaktnachricht der Administrator des Wordpress-Blogs mit einer E-Mail benachrichtigt werden.', 'simplecontact'); ?>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="simplecontact_message_min_lenght"><?php _e('Minimale Nachrichtenl&auml;nge:', 'simplecontact') ?></label></th>
+					<td>
+						<input type="text" name="simplecontact[simplecontact_message_min_lenght]" id="simplecontact_message_min_lenght" style="width:50px; text-align:right;" value="<?php echo $data['message_min_length'] ?>" /> <?php _e('Zeichen', 'simplecontact') ?>
+						<div style="text-align:justify;">
+							<?php _e('Minimale L&auml;nge f&uuml;r die Nachricht des Kontaktformulars. Wird dieser Wert auf 0 gesetzt, so existiert keine Beschr&auml;nkung f&uuml;r die L&auml;nge der Nachricht.', 'simplecontact'); ?>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="submit">
+			<input type="submit" class="button-primary" value="<?php _e('Einstellungen speichern', 'simplecontact')?>" />
+		</p>
+	</form>
+	<form method="post">
+		<h3><?php _e('Neuen Betreff anlegen', 'simplecontact'); ?></h3>
+		<p><?php _e('Sie k&ouml;nnen neue Betreffs hier anlegen, um die Anzeige der Betreffs f&uuml;r das Kontaktformular zu erweitern.', 'simplecontact') ?></p>
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th scope="row">
+						<label for="sc-new-subject"><?php _e('Neuen Betreff anlegen:', 'simplecontact') ?></label>
+					</th>
+					<td>
+						<input type="text" name="newsubject[name]" id="sc-new-subject" style="width:350px;" value="<?php if (isset($newsubject['name'])) : ?><?php echo $newsubject['name'] ?><?php endif; ?>" /> (<?php _e('Reihenfolge:', 'simplecontact'); ?> <input type="text" name="newsubject[order]" style="width:35px; text-align:center;" value="<?php if (isset($newsubject['order'])) : ?><?php echo $newsubject['order'] ?><?php else : ?>0<?php endif; ?>" />)
+						<div style="text-align:justify;">
+							<?php _e('Geben Sie den Namen und die Reihenfolge bzw. Position des neuen Betreffs ein. Bei der Reihenfolge sind nur ganzzahlige Werte von 0 aufsteigend erlaubt.', 'simplecontact'); ?>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="submit">
+			<input type="submit" class="button-primary" value="<?php _e('Betreff anlegen', 'simplecontact'); ?> &raquo;" />
+		</p>
+	</form>
+	<?php if (is_array($list) && count($list) > 0) : ?>
+		<form method="post">
+			<h3><?php _e('Nachrichten', 'simplecontact'); ?></h3>
+			<p><?php _e('&Uuml;bersicht der Kontaktnachrichten mit den jeweiligen Betreffs, welche &uuml;ber das Kontaktformular versendet wurden.', 'simplecontact') ?></p>
+			<table class="form-table">
+				<tbody>
+					<?php foreach ($list as $subject) : ?>
+						<tr>
+							<td style="font-weight:bold; text-align:left; width:18%;">#<?php echo $subject['subject_id'] ?></td>
+							<td style="font-weight:bold; text-align:left;"><?php echo $subject['subject_name'] ?></td>
+							<td style="font-weight:bold; text-align:center; width: 5%;"><input type="text" name="subject[order][<?php echo $subject['subject_id'] ?>]" value="<?php echo $subject['subject_order'] ?>" style="width:35px; text-align:center;" /></td>
+							<td style="font-weight:bold; text-align:left; width: 18%;">
+								<?php if ($subject['subject_active']) : ?>
+									<a href="<?php echo bloginfo('siteurl'); ?>/wp-admin/admin.php?page=simplecontact/simpleContact.php&amp;deactivate=<?php echo $subject['subject_id'] ?>"><?php _e('deaktivieren', 'simplecontact') ?></a>
+								<?php else : ?>
+									<a href="<?php echo bloginfo('siteurl'); ?>/wp-admin/admin.php?page=simplecontact/simpleContact.php&amp;activate=<?php echo $subject['subject_id'] ?>"><?php _e('aktivieren', 'simplecontact') ?></a>
+								<?php endif; ?>
+							</td>
+							<td style="font-weight:bold; text-align:left; width: 18%;"><a href="<?php echo bloginfo('siteurl'); ?>/wp-admin/admin.php?page=simplecontact/simpleContact.php&amp;delete=<?php echo $subject['subject_id'] ?>"><?php _e('L&ouml;schen', 'simplecontact') ?></a></td>
+						</tr>
+						<?php if (count($subject['subject_messages'])) : ?>
+							<?php foreach ($subject['subject_messages'] as $message) : ?>
+								<tr<?php if (!$message['message_read']) : ?> style="background:#ffebe8;"<?php endif; ?>>
+									<td style="text-align:left; vertical-align:top;"><?php echo date('d-m-Y, H:i \U\h\r', $message['message_date']) ?></td>
+									<td style="text-align:left; vertical-align:top;">
+										<div>
+											<a href="mailto:<?php echo $message['message_email'] ?>"><?php echo $message['message_username'] ?></a>
+											(<a href="javascript:void(0)" onclick="javascript:toggleDisplay('<?php echo $message['message_id'] ?>');" id="link-<?php echo $message['message_id'] ?>" style="font-style:italic;"><?php _e('anzeigen', 'simplecontact') ?></a>)
+										</div>
+										<div id="message-<?php echo $message['message_id'] ?>" style="background:#fff; border: #ddd 1px solid; display:none; padding:5px; margin-top:5px;"><?php echo $this->convertToUtf8($message['message_message']) ?></div>
+									</td>
+									<td style="text-align:center; vertical-align:top;">&nbsp;</td>
+									<td style="text-align:left; vertical-align:top;">
+										<?php if ($message['message_read']) : ?>
+											<a href="<?php echo bloginfo('siteurl'); ?>/wp-admin/admin.php?page=simplecontact/simpleContact.php&amp;unread=<?php echo  $message['message_id'] ?>"><?php _e('Als ungelesen markieren', 'simplecontact') ?></a>
+										<?php else : ?>
+											<a href="<?php echo bloginfo('siteurl'); ?>/wp-admin/admin.php?page=simplecontact/simpleContact.php&amp;read=<?php echo  $message['message_id'] ?>"><?php _e('Als gelesen markieren', 'simplecontact') ?></a>
+										<?php endif; ?>
+									</td>
+									<td style="text-align:left; vertical-align:top;">
+										<a href="<?php echo bloginfo('siteurl'); ?>/wp-admin/admin.php?page=simplecontact/simpleContact.php&amp;m_delete=<?php echo $message['message_id'] ?>"><?php _e('L&ouml;schen', 'simplecontact') ?></a>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+			<p class="submit">
+				<input type="submit" class="button-primary" value="<?php _e('Reihenfolge festlegen', 'simplecontact')?> &raquo;" />
+			</p>
+		</form>
+	<?php endif; ?>
+</div>
